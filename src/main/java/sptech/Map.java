@@ -12,9 +12,11 @@ public class Map {
     public Map() {
         createBaseMap();
         setPlayerPos();
-        // setObstaclePos();
+        setObstacles();
     }
 
+
+    // Map initialization
     private void createBaseMap() {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -33,32 +35,48 @@ public class Map {
         map[playerPos[0]][playerPos[1]] = MapStatesEnum.PLAYER;
     }
 
-    private void setObstaclePos() {
-        boolean hasObstacle = false;
-        int cont = 0;
-        while (cont < obstaclesPos.length) {
-            int[] obstacle = generateObstaclePos();
-            for (int i = 0; i < obstaclesPos.length;) {
-                for (int j = 0; j < obstaclesPos[i].length; j++) {
-                    
-                }
-            }
+    private void setObstacles() {
+        setObstaclePos();
+        for (int i = 0; i < obstaclesPos.length; i++) {
+            map[obstaclesPos[i][0]][obstaclesPos[i][1]] = MapStatesEnum.OBSTACLE;
         }
     }
 
-    private int[] generateObstaclePos() {
-        Random random = new Random();
-        int obstacleRow = random.nextInt(5) + 1;
-        int obstacleCollumn = random.nextInt(3);
-        int[] obstaclePos = { obstacleRow, obstacleCollumn };
-        return obstaclePos;
+    private void setObstaclePos() {
+        int[] obstaclesCol = generateObstacleCol();
+        for (int i = 0; i < obstaclesPos.length; i++) {
+            this.obstaclesPos[i][0] = new Random().nextInt(5) + 1;
+            this.obstaclesPos[i][1] = obstaclesCol[i];
+        }
     }
 
-    public void showMap() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
+    private int[] generateObstacleCol() {
+        int[] obstaclesCol = new int[obstacles];
+        int cont = 0;
+        Random rand = new Random();
+        while (cont < this.obstacles) {
+            int obstacle = rand.nextInt(3);
+            if (obstacle != obstaclesCol[0]) {
+                obstaclesCol[cont] = obstacle;
+                cont++;
+            }
+        }
+        return obstaclesCol;
+    }
 
-                System.out.printf("|---%s---|", map[i][j].getText());
+    public void showMap(int millis) {
+        for (int i = map.length - 1; i >= 0; i--) {
+            for (int j = map[i].length - 1; j >= 0; j--) {
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+
+                }
+                if (map[i][j] == MapStatesEnum.OBSTACLE) {
+                    System.out.printf("|***%s***|", map[i][j].getText());
+                } else {
+                    System.out.printf("|---%s---|", map[i][j].getText());
+                }
             }
             System.out.println();
         }
