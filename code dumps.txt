@@ -1,0 +1,32 @@
+// Player Methods
+    public void movePlayerUp(int x) {
+        for (int axis = player.getX() - x; axis > 0; axis--) {
+            int[] newPos = { player.getX() - 1, player.getY() };
+            if (hasObstacle(newPos)) {
+                break;
+            }
+
+            playerTrailReset(player.getPos());
+            player.setX(newPos[0]);
+            setBasePlayerPos();
+            System.out.println("".repeat(10));
+            showMap(1000, false, true);
+        }
+
+    }
+    }
+
+    private void playerTrailReset(int[] pos) {
+        if (pos[0] >= areasRowConstraints[1][0] && pos[0] <= areasRowConstraints[1][1]) {
+            map[pos[0]][pos[1]] = MapStatesEnum.EMPTY_A2;
+        } else if (pos[0] >= areasRowConstraints[2][0] && pos[0] <= areasRowConstraints[2][1]) {
+            map[pos[0]][pos[1]] = MapStatesEnum.EMPTY_A1;
+        }
+    }
+
+    private boolean hasObstacle(int[] pos) {
+        if (map[pos[0]][pos[1]] == MapStatesEnum.OBSTACLE) {
+            return true;
+        }
+        return false;
+    }
