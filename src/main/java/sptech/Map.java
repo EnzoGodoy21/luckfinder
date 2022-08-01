@@ -93,6 +93,7 @@ public class Map {
         if (isMoving) {
             try {
                 Thread.sleep(millis);
+                millis -= 100;
             } catch (InterruptedException e) {
             }
         }
@@ -106,9 +107,9 @@ public class Map {
                 }
                 if (!debugMode) {
                     if (map[i][j] == MapStatesEnum.OBSTACLE) {
-                        System.out.printf("|***%s***|", map[i][j].getText());
+                        System.out.printf("%s|%%%%%%%s%%%%%%|\u001B[37m\u001B[40m",map[i][j].getColor(), map[i][j].getText());
                     } else {
-                        System.out.printf("|---%s---|", map[i][j].getText());
+                        System.out.printf("%s|---%s---|\u001B[37m\u001B[40m",map[i][j].getColor(), map[i][j].getText());
                     }
                 } else {
                     System.out.printf("%15s", map[i][j]);

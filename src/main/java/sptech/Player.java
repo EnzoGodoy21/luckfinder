@@ -2,10 +2,14 @@ package sptech;
 
 public class Player {
     Map actualMap;
+    private int points;
+    private int totalMoves;
     private int x;
     private int y;
 
     public Player() {
+        this.points = 0;
+        this.totalMoves = 0;
         this.x = 11;
         this.y = 1;
     }
@@ -14,43 +18,57 @@ public class Player {
         return new int[] { x, y };
     }
 
-    // Movement
+    public void win(){
+        this.points += 100;
+        System.out.printf("Parabéns! Você chegou ao objetivo em %d movimentos", this.totalMoves);
+    }
 
+    // Movement
     public void moveUp(int force) {
+        this.totalMoves++;
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
-            int[] newPos = {this.x - 1, this.y};
-            if(actualMap.hasEmptyPath(newPos)){
+            int[] newPos = { this.x - 1, this.y };
+            if (oldPos[0] == 0){
+                win();
+                break;
+            }
+            if (actualMap.hasEmptyPath(newPos)) {
                 this.x = newPos[0];
                 actualMap.updatePlayerPos(oldPos);
-            }else{
+            } else {
                 break;
             }
         }
     }
 
     public void moveLeft(int force) {
+        this.totalMoves++;
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
-            int[] newPos = {this.x, this.y};
-            if(newPos[1] > 2) y = 0;
-            if(actualMap.hasEmptyPath(newPos)){
+            int[] newPos = { this.x, this.y + 1 };
+            if (newPos[1] > 2) newPos[1] = 0;
+            if (actualMap.hasEmptyPath(newPos)) {
                 this.y = newPos[1];
                 actualMap.updatePlayerPos(oldPos);
-            }else{
+            } else {
                 break;
             }
         }
     }
 
     public void moveRight(int force) {
+        this.totalMoves++;
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
-            this.y--;
-            if (y > 0) {
-                y = 2;
+            int[] newPos = { this.x, this.y - 1 };
+            if (newPos[1] < 0) newPos[1] = 2;
+            if (actualMap.hasEmptyPath(newPos)) {
+                this.y = newPos[1];
+                actualMap.updatePlayerPos(oldPos);
+            }else{
+                break;
             }
-            actualMap.updatePlayerPos(oldPos);
         }
     }
 

@@ -52,5 +52,7 @@ public class Pilha<T> {
         }
     }
 
-
+    public int size(){
+        return this.top + 1;
+    }
 }
