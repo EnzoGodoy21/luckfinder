@@ -4,23 +4,23 @@ public class Player {
     Map actualMap;
     private int points;
     private int totalMoves;
+    private boolean winner;
     private int x;
     private int y;
 
     public Player() {
         this.points = 0;
         this.totalMoves = 0;
+        this.winner = false;
         this.x = 11;
         this.y = 1;
     }
 
-    public int[] getPos() {
-        return new int[] { x, y };
-    }
-
-    public void win(){
+    public void win() {
         this.points += 100;
-        System.out.printf("Parabéns! Você chegou ao objetivo em %d movimentos", this.totalMoves);
+        this.winner = true;
+        System.out.printf("Parabéns! Você chegou ao objetivo em %d movimentos \n", this.totalMoves);
+        System.out.printf("Você tem %d pontos!!\n", this.points);
     }
 
     // Movement
@@ -29,7 +29,7 @@ public class Player {
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
             int[] newPos = { this.x - 1, this.y };
-            if (oldPos[0] == 0){
+            if (oldPos[0] == 0) {
                 win();
                 break;
             }
@@ -47,7 +47,8 @@ public class Player {
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
             int[] newPos = { this.x, this.y + 1 };
-            if (newPos[1] > 2) newPos[1] = 0;
+            if (newPos[1] > 2)
+                newPos[1] = 0;
             if (actualMap.hasEmptyPath(newPos)) {
                 this.y = newPos[1];
                 actualMap.updatePlayerPos(oldPos);
@@ -62,11 +63,12 @@ public class Player {
         for (int i = 0; i < force; i++) {
             int[] oldPos = getPos();
             int[] newPos = { this.x, this.y - 1 };
-            if (newPos[1] < 0) newPos[1] = 2;
+            if (newPos[1] < 0)
+                newPos[1] = 2;
             if (actualMap.hasEmptyPath(newPos)) {
                 this.y = newPos[1];
                 actualMap.updatePlayerPos(oldPos);
-            }else{
+            } else {
                 break;
             }
         }
@@ -94,4 +96,11 @@ public class Player {
         return y;
     }
 
+    public int[] getPos() {
+        return new int[] { x, y };
+    }
+
+    public boolean isWinner(){
+        return winner;
+    }
 }

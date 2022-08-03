@@ -22,7 +22,7 @@ public class App {
 
         String direction;
         map.showMap(100, false, false);
-        while (!moveStack.isFull()) {
+        while (!moveStack.isFull() && !player.isWinner()) {
             System.out.printf("Qual direção deseja tentar ir? (%d movimentos restantes)\n",5 - moveStack.size());
             direction = reader.nextLine();
             switch (direction) {
