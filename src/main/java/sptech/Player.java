@@ -103,4 +103,10 @@ public class Player {
     public boolean isWinner(){
         return winner;
     }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
+    }
+
+    
 }
